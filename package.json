@@ -1,0 +1,60 @@
+{
+	"name": "react-intl-message",
+	"displayName": "react-intl-message-tips",
+	"description": "get your translations config",
+	"publisher": "quincy",
+	"version": "0.0.4",
+	"engines": {
+		"vscode": "^1.28.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.helloWorld",
+				"title": "Hello World"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "TranslatedMessage",
+			"properties": {
+				"TranslatedMessage.path": {
+					"type": "string",
+					"default": null,
+					"markdownDescription": "Specific your translated files path(e.g. path/languages/zh-cn.json)",
+					"scope": "window"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "webpack --mode production",
+		"compile": "webpack --mode none",
+		"package": "vsce package",
+		"watch": "webpack --mode none --watch",
+		"test-compile": "tsc -p ./"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.4.4",
+		"@babel/plugin-transform-runtime": "^7.4.4",
+		"@babel/preset-env": "^7.4.4",
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^10.12.21",
+		"babel-loader": "^8.0.6",
+		"eslint": "^5.13.0",
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28",
+		"webpack": "^4.32.0",
+		"webpack-cli": "^3.3.2"
+	},
+	"dependencies": {
+		"lodash": "^4.17.11"
+	}
+}

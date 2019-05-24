@@ -26,10 +26,13 @@ function activate(context) {
 		 */
 	});
 
-	vscode.languages.registerHoverProvider('javascript', {
+	translation.getTranslatedObj();
+
+	const hover = vscode.languages.registerHoverProvider({ scheme: 'file', language: 'javascript' }, {
 		provideHover: translatedHover.default
 	});
 
+	context.subscriptions.push(hover);
 	context.subscriptions.push(disposable);
 }
 exports.activate = activate;

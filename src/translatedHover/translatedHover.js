@@ -1,10 +1,11 @@
 import { Hover } from "vscode";
-import translation from "../translation/translation";
+import { getTranslatedObj } from "../translation/translation";
 
 function translatedHover(document, position) {
   try {
     const range = document.getWordRangeAtPosition(position);
     const word = document.getText(range);
+    const translation = getTranslatedObj();
     // let separator = null;
     // if (isWin()) {
     //   separator = "\\";
@@ -19,7 +20,6 @@ function translatedHover(document, position) {
       }
     }
     const content = result.join("\n");
-    console.log(result);
     return new Hover(content);
   } catch (error) {
     return new Hover("There is no translation");

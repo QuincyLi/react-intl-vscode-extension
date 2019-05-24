@@ -2,7 +2,8 @@ import { workspace, window } from 'vscode';
 import path from 'path';
 import fs from 'fs';
 
-let result = null;
+let instance = null;
+let latestPath = null;
 
 function translated() {
   try {
@@ -10,8 +11,9 @@ function translated() {
     const { rootPath, workspaceFolders } = workspace;
     const translatedFilePath = path.resolve((rootPath || workspaceFolders) + settingPath);
     if (fs.existsSync(translatedFilePath)) {
-      const result = JSON.parse(fs.readFileSync(translatedFilePath));
-      return result;
+      fs.readFile(translatedFilePath, (err, content) => {
+        instance = JSON.parse(content);
+      });
     } else {
       window.showInformationMessage('Cannot find your json file!');
     }
@@ -21,14 +23,15 @@ function translated() {
 }
 
 export function getTranslatedObj() {
-  if (!result) {
-    result = translated();
+  const settingPath = workspace.getConfiguration().get('TranslatedMessage.path');
+  if (!instance || latestPath !== settingPath) {
+    latestPath = settingPath;
+    translated();
   }
-  return result;
+
+  return instance;
 }
 
 export function destory() {
-  result = null;
+  instance = null;
 }
-
-export default getTranslatedObj();

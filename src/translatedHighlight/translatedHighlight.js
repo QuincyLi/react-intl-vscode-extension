@@ -1,5 +1,3 @@
-import translation from "../translation/translation";
-
 function translatedHighlight(document, position) {
   try {
 

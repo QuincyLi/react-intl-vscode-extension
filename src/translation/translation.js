@@ -3,9 +3,8 @@ import path from 'path';
 import fs from 'fs';
 
 let instance = null;
-let latestPath = null;
 
-function translated() {
+export function translated() {
   try {
     const settingPath = workspace.getConfiguration().get('TranslatedMessage.path');
     const { rootPath, workspaceFolders } = workspace;
@@ -23,12 +22,6 @@ function translated() {
 }
 
 export function getTranslatedObj() {
-  const settingPath = workspace.getConfiguration().get('TranslatedMessage.path');
-  if (!instance || latestPath !== settingPath) {
-    latestPath = settingPath;
-    translated();
-  }
-
   return instance;
 }
 

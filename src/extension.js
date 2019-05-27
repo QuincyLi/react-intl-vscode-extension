@@ -5,6 +5,7 @@ const vscode = require('vscode');
 // your extension is activated the very first time the command is executed
 const translation = require('./translation/translation');
 const translatedHover = require('./translatedHover/translatedHover');
+const addConfigurationListener = require('./Configurations/configurations');
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -26,14 +27,37 @@ function activate(context) {
 		 */
 	});
 
-	translation.getTranslatedObj();
+	translation.translated();
+
+	const decoration = vscode.window.createTextEditorDecorationType({
+		after: {
+			margin: '0 0 0 3em',
+			textDecoration: 'none'
+		},
+		rangeBehavior: vscode.DecorationRangeBehavior.ClosedOpen
+	});
 
 	const hover = vscode.languages.registerHoverProvider({ scheme: 'file', language: 'javascript' }, {
 		provideHover: translatedHover.default
 	});
 
+	const { ThemeColor } = vscode;
+
+	const renderOptions = {
+		backgroundColor: new ThemeColor('gitlens.trailingLineBackgroundColor'),
+		color: new ThemeColor('gitlens.trailingLineForegroundColor'),
+		contentText: "test123",
+		fontWeight: 'normal',
+		fontStyle: 'normal',
+		// Pull the decoration out of the document flow if we want to be scrollable
+		textDecoration: `none;`
+	}
+
+	vscode.window.activeTextEditor.setDecorations(decoration, [{ renderOptions, range: new vscode.Range(1, 0, 1, Number.MAX_SAFE_INTEGER) }])
+
 	context.subscriptions.push(hover);
 	context.subscriptions.push(disposable);
+	addConfigurationListener.default(context);
 }
 exports.activate = activate;
 
